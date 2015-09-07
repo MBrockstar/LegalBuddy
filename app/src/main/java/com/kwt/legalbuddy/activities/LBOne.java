@@ -1,4 +1,4 @@
-package com.kwt.legalbuddy;
+package com.kwt.legalbuddy.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,13 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +31,8 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kwt.legalbuddy.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

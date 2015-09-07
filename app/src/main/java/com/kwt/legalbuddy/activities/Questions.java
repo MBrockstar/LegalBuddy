@@ -1,4 +1,4 @@
-package com.kwt.legalbuddy;
+package com.kwt.legalbuddy.activities;
 
 /**
  * Created by MB on 8/8/2015.

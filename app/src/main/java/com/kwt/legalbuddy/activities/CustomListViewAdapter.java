@@ -1,4 +1,4 @@
-package com.kwt.legalbuddy;
+package com.kwt.legalbuddy.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.kwt.legalbuddy.R;
 
 import java.util.List;
 
