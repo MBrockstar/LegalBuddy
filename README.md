@@ -1,0 +1,2 @@
+# LegalBuddy
+Dummy Android Project
