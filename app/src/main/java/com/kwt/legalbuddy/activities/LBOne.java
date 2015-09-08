@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kwt.legalbuddy.R;
+import com.kwt.legalbuddy.model.NDAuser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -245,6 +246,7 @@ public class LBOne extends ActionBarActivity
          Dialog d,d2,d3,d4;
         NumberPicker np;
         ViewGroup parent;
+        NDAuser ndauser;
         int a1,a2,a3;
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -560,9 +562,13 @@ public class LBOne extends ActionBarActivity
             }
 
             if(ab==7){
+                ndauser=new NDAuser();
                 String sp3[]={"Company","Individual","Disclosure"};
                 String yn[]={"Yes","No"};
                 String termntn[]={"Discloser only","Mutual"};
+                final EditText discloser_name,receiver_name;
+                discloser_name= (EditText) findViewById(R.id.editText9);
+                receiver_name= (EditText) findViewById(R.id.editText10);
                 submit= (Button) getView().findViewById(R.id.button9);
                 Rp= (Spinner) getView().findViewById(R.id.spinner7);
                 Spinner info= (Spinner) getView().findViewById(R.id.spinner8);
@@ -605,6 +611,10 @@ public class LBOne extends ActionBarActivity
                         fragmentManager.beginTransaction()
                                 .replace(R.id.container, pf.newInstance(8)).addToBackStack(null)
                                 .commit();
+                        ndauser.discloser_name=discloser_name.getText().toString();
+                        ndauser.receiver_name=receiver_name.getText().toString();
+                        Toast.makeText(getApplicationContext(),ndauser.discloser_type,Toast.LENGTH_LONG).show();
+
                     }
                 });
             }
@@ -808,12 +818,19 @@ public class LBOne extends ActionBarActivity
             }
             else if(adapterView==Dp){
                 if(i==1){
+                    ndauser.discloser_type ="Individual";
+                    ndauser.company_signing_name="";
+                    ndauser.occupation="";
                     occtv.setVisibility(View.GONE);
                     occet.setVisibility(View.GONE);
                     sntv.setVisibility(View.GONE);
                     snet.setVisibility(View.GONE);
                 }
                 else{
+                    if(i==0)
+                        ndauser.discloser_type ="Company";
+                    if(i==2)
+                        ndauser.discloser_type ="Disclosure";
                     occtv.setVisibility(View.VISIBLE);
                     occet.setVisibility(View.VISIBLE);
                     sntv.setVisibility(View.VISIBLE);
