@@ -1,9 +1,13 @@
 package com.kwt.legalbuddy.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -33,14 +37,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kwt.legalbuddy.R;
+import com.kwt.legalbuddy.controller.GetAccessTokenAsync;
+import com.kwt.legalbuddy.controller.SubmitRequestAsync;
 import com.kwt.legalbuddy.model.NDAuser;
+import com.kwt.legalbuddy.webservice.JSONParser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -63,6 +73,7 @@ public class LBOne extends ActionBarActivity
      */
     private CharSequence mTitle;
     ActionMenuItemView search;
+    public String access_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +89,12 @@ public class LBOne extends ActionBarActivity
         // }
         StrictMode.enableDefaults();
         handleIntent(getIntent());
+
+
+
+
+
+
 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -102,21 +119,21 @@ public class LBOne extends ActionBarActivity
             //Cursor c = db.getWordMatches(query, null);
             //c.moveToFirst();
             //res=c.getString(1);
-            Toast t=Toast.makeText(this, query, Toast.LENGTH_LONG);
-            t.show();
+            /*Toast t=Toast.makeText(this, query, Toast.LENGTH_LONG);
+            t.show();*/
         }
 
         else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast t=Toast.makeText(this, "aaaaa", Toast.LENGTH_LONG);
-            t.show();
+            /*Toast t=Toast.makeText(this, "aaaaa", Toast.LENGTH_LONG);
+            t.show();*/
         }
     }
 
     private void doMySearch(String query) {
-        Toast t=Toast.makeText(this, query, Toast.LENGTH_LONG);
-        t.show();
+        /*Toast t=Toast.makeText(this, query, Toast.LENGTH_LONG);
+        t.show();*/
     }
 
     @Override
@@ -201,14 +218,14 @@ public class LBOne extends ActionBarActivity
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    Toast t = Toast.makeText(getApplicationContext(),s , Toast.LENGTH_LONG);
-                    t.show();
+                    /*Toast t = Toast.makeText(getApplicationContext(),s , Toast.LENGTH_LONG);
+                    t.show();*/
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    Toast t = Toast.makeText(getApplicationContext(),"YYhh" , Toast.LENGTH_LONG);
-                    t.show();
+                    /*Toast t = Toast.makeText(getApplicationContext(),"YYhh" , Toast.LENGTH_LONG);
+                    t.show();*/
                 }
             });
             /*search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -281,8 +298,8 @@ public class LBOne extends ActionBarActivity
                 rootView = inflater.inflate(R.layout.fragment_menu, container, false);
             else if(ab==6)
                 rootView = inflater.inflate(R.layout.fmenu, container, false);
-            else if(ab==7)
-                rootView = inflater.inflate(R.layout.nda, container, false);
+            else if(ab==7){
+                rootView = inflater.inflate(R.layout.nda, container, false);}
             else if(ab==8)
                 rootView = inflater.inflate(R.layout.thankyou, container, false);
             return rootView;
@@ -437,8 +454,8 @@ public class LBOne extends ActionBarActivity
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             a1=position;
-                            Toast t = Toast.makeText(getActivity(), "" +a1, Toast.LENGTH_LONG);
-                            t.show();
+                          /* Toast t = Toast.makeText(getActivity(), "" +a1, Toast.LENGTH_LONG);
+                            t.show();*/
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             PlaceholderFragment pf = new PlaceholderFragment();
                             if(position==0){
@@ -562,6 +579,25 @@ public class LBOne extends ActionBarActivity
             }
 
             if(ab==7){
+
+                /*GetAccessTokenAsync aAsync = new GetAccessTokenAsync(LBOne.this,
+                        getAccessTokenHandler,"Legal Buddy");
+                aAsync.execute("Get Access Token");*/
+                JSONObject json = null;
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+
+                try {
+
+                    json = jsonParser.makeHttpRequest("http://zciencecorporation.com/lbproject/api/nda/Ashutosh/get_token", "GET",postParameters);
+                    Toast.makeText(LBOne.this,json.getString("access_token"),Toast.LENGTH_LONG).show();
+                    access_token = json.getString("access_token");
+                } catch (Exception e) {
+                    Toast.makeText(LBOne.this,"Nothing"+e.toString(),Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+
+                }
+
                 ndauser=new NDAuser();
                 String sp3[]={"Company","Individual","Disclosure"};
                 String yn[]={"Yes","No"};
@@ -613,13 +649,73 @@ public class LBOne extends ActionBarActivity
                                 .commit();
                         ndauser.discloser_name=discloser_name.getText().toString();
                         ndauser.receiver_name=receiver_name.getText().toString();
+                        JSONObject json = null;
+                        JSONParser jsonParser = new JSONParser();
+                        List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+
+                        try {
+                            postParameters.add(new BasicNameValuePair("_token", access_token));
+                            postParameters.add(new BasicNameValuePair("first_party_type", ndauser.discloser_type));
+                            postParameters.add(new BasicNameValuePair("first_party_name", ndauser.discloser_name));
+                            postParameters.add(new BasicNameValuePair("second_party_type", ndauser.receiver_type));
+                            postParameters.add(new BasicNameValuePair("second_party_name", ndauser.receiver_name));
+                            postParameters.add(new BasicNameValuePair("first_party_occupation", ndauser.discloser_type));//string
+                            postParameters.add(new BasicNameValuePair("second_party_occupation", ndauser.discloser_name));//string
+                            postParameters.add(new BasicNameValuePair("effective_date", ndauser.receiver_type));//date mm/dd/yyyy
+                            postParameters.add(new BasicNameValuePair("governing_law", ndauser.receiver_name));// string
+                            postParameters.add(new BasicNameValuePair("software_shared", ndauser.discloser_type));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("info_shared_among_company", ndauser.discloser_name));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("make_copies", ndauser.receiver_type));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("timeline", ndauser.receiver_name));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("closing_date", ndauser.receiver_type));//date mm/dd/yyyy nullable
+                            postParameters.add(new BasicNameValuePair("future_buiness", ndauser.receiver_name));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("agreement_terminated", ndauser.discloser_type));//string mutually ot discloser only
+                            postParameters.add(new BasicNameValuePair("signing_date", ndauser.discloser_name));//date mm/dd/yyyy nullable
+                            postParameters.add(new BasicNameValuePair("signing_first", ndauser.receiver_type));//string nullable
+                            postParameters.add(new BasicNameValuePair("signing_second", ndauser.receiver_name));//string nullable
+
+                            postParameters.add(new BasicNameValuePair("_email", "ashutosh.barthwal007@gmail.com"));
+
+
+                            json = jsonParser.makeHttpRequest("http://zciencecorporation.com/lbproject/api/nda/submit", "POST",postParameters);
+
+
+                        } catch (Exception e) {
+                            Toast.makeText(LBOne.this,"Nothing"+e.toString(),Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+
+                        }
                         Toast.makeText(getApplicationContext(),ndauser.discloser_type,Toast.LENGTH_LONG).show();
+                       // SubmitRequestAsync mAsync = new SubmitRequestAsync(this,ndaSubmitHandler,"legal buddy api request");
 
                     }
                 });
             }
 
+
+
         }
+
+        @SuppressLint("HandlerLeak")
+        Handler getAccessTokenHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+
+                if (msg.obj != null) {
+
+
+                    Toast.makeText(LBOne.this, ((JSONObject) msg.obj).toString(), Toast.LENGTH_LONG).show();
+
+
+                }
+                else
+                {
+                    Toast.makeText(LBOne.this,"Nothing",Toast.LENGTH_LONG).show();
+                }
+            };
+        };
+
         public void show()
         {
 
@@ -866,5 +962,6 @@ public class LBOne extends ActionBarActivity
 
         }
     }
+
 
 }
