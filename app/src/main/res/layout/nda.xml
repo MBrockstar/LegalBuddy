@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText11"
                 android:inputType="date"
-                android:hint="dd/mm/yyyy"/>
+                android:hint="mm/dd/yyyy"/>
         </LinearLayout>
 
         <LinearLayout

@@ -647,45 +647,67 @@ public class LBOne extends ActionBarActivity
                         fragmentManager.beginTransaction()
                                 .replace(R.id.container, pf.newInstance(8)).addToBackStack(null)
                                 .commit();
-                        ndauser.discloser_name=discloser_name.getText().toString();
-                        ndauser.receiver_name=receiver_name.getText().toString();
+
                         JSONObject json = null;
                         JSONParser jsonParser = new JSONParser();
                         List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 
+                        ndauser.first_party_name=discloser_name.getText().toString();
+                        ndauser.effective_date=((EditText) findViewById(R.id.editText11)).getText().toString();
+                        ndauser.governing_law=((EditText) findViewById(R.id.editText12)).getText().toString();
+
+
                         try {
-                            postParameters.add(new BasicNameValuePair("_token", access_token));
-                            postParameters.add(new BasicNameValuePair("first_party_type", ndauser.discloser_type));
-                            postParameters.add(new BasicNameValuePair("first_party_name", ndauser.discloser_name));
-                            postParameters.add(new BasicNameValuePair("second_party_type", ndauser.receiver_type));
-                            postParameters.add(new BasicNameValuePair("second_party_name", ndauser.receiver_name));
-                            postParameters.add(new BasicNameValuePair("first_party_occupation", ndauser.discloser_type));//string
-                            postParameters.add(new BasicNameValuePair("second_party_occupation", ndauser.discloser_name));//string
-                            postParameters.add(new BasicNameValuePair("effective_date", ndauser.receiver_type));//date mm/dd/yyyy
-                            postParameters.add(new BasicNameValuePair("governing_law", ndauser.receiver_name));// string
-                            postParameters.add(new BasicNameValuePair("software_shared", ndauser.discloser_type));// 1 for Yes 0 for No
-                            postParameters.add(new BasicNameValuePair("info_shared_among_company", ndauser.discloser_name));// 1 for Yes 0 for No
-                            postParameters.add(new BasicNameValuePair("make_copies", ndauser.receiver_type));// 1 for Yes 0 for No
-                            postParameters.add(new BasicNameValuePair("timeline", ndauser.receiver_name));// 1 for Yes 0 for No
-                            postParameters.add(new BasicNameValuePair("closing_date", ndauser.receiver_type));//date mm/dd/yyyy nullable
-                            postParameters.add(new BasicNameValuePair("future_buiness", ndauser.receiver_name));// 1 for Yes 0 for No
-                            postParameters.add(new BasicNameValuePair("agreement_terminated", ndauser.discloser_type));//string mutually ot discloser only
-                            postParameters.add(new BasicNameValuePair("signing_date", ndauser.discloser_name));//date mm/dd/yyyy nullable
-                            postParameters.add(new BasicNameValuePair("signing_first", ndauser.receiver_type));//string nullable
-                            postParameters.add(new BasicNameValuePair("signing_second", ndauser.receiver_name));//string nullable
-
+                            postParameters.add(new BasicNameValuePair("_token", "ashutoshLBaPP"));
+                            postParameters.add(new BasicNameValuePair("first_party_type", ndauser.first_party_type));
+                            postParameters.add(new BasicNameValuePair("first_party_name", ndauser.first_party_name));
+                            postParameters.add(new BasicNameValuePair("signing_first", ndauser.signing_first));//string nullable
+                            postParameters.add(new BasicNameValuePair("first_party_occupation", ndauser.first_party_occupation));//string
+                            postParameters.add(new BasicNameValuePair("second_party_type", ndauser.second_party_type));
+                            postParameters.add(new BasicNameValuePair("second_party_name", ndauser.second_party_name));
+                            postParameters.add(new BasicNameValuePair("signing_second", ndauser.signing_second));//string nullable
+                            postParameters.add(new BasicNameValuePair("second_party_occupation", ndauser.first_party_occupation));//string
+                            postParameters.add(new BasicNameValuePair("effective_date", ndauser.effective_date));//date mm/dd/yyyy
+                            postParameters.add(new BasicNameValuePair("governing_law", ndauser.governing_law));// string
+                            postParameters.add(new BasicNameValuePair("software_shared", ndauser.software_shared));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("info_shared_among_company", ndauser.info_shared_among_company));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("make_copies", ndauser.make_copies));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("timeline", ndauser.timeline));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("closing_date", ndauser.closing_date));//date mm/dd/yyyy nullable
+                            postParameters.add(new BasicNameValuePair("future_buiness", ndauser.future_buiness));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("agreement_terminated", ndauser.agreement_terminated));//string mutually ot discloser only
+                            postParameters.add(new BasicNameValuePair("signing_date", ndauser.signing_date));//date mm/dd/yyyy nullable
                             postParameters.add(new BasicNameValuePair("_email", "ashutosh.barthwal007@gmail.com"));
+                            /*postParameters.add(new BasicNameValuePair("_token", "ashutoshLBaPP"));
+                            postParameters.add(new BasicNameValuePair("first_party_type", "Individual"));
+                            postParameters.add(new BasicNameValuePair("first_party_name", "Mr. Ashutosh Barthwal"));
+                            postParameters.add(new BasicNameValuePair("signing_first", "Same as First Party Name"));//string nullable
+                            postParameters.add(new BasicNameValuePair("first_party_occupation", "No Occupation"));//string
+                            postParameters.add(new BasicNameValuePair("second_party_type", "Individual"));
+                            postParameters.add(new BasicNameValuePair("second_party_name", "Mr. John Doe"));
+                            postParameters.add(new BasicNameValuePair("signing_second", "Same as Second Party Name"));//string nullable
+                            postParameters.add(new BasicNameValuePair("second_party_occupation", "No Occupation"));//string
+                            postParameters.add(new BasicNameValuePair("effective_date", "08/22/2015"));//date mm/dd/yyyy
+                            postParameters.add(new BasicNameValuePair("governing_law", "India"));// string
+                            postParameters.add(new BasicNameValuePair("software_shared", "1"));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("info_shared_among_company", "0"));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("make_copies","!"));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("timeline", "1"));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("closing_date", "03/10/2015"));//date mm/dd/yyyy nullable
+                            postParameters.add(new BasicNameValuePair("future_buiness", "1"));// 1 for Yes 0 for No
+                            postParameters.add(new BasicNameValuePair("agreement_terminated", "mutually"));//string mutually ot discloser only
+                            postParameters.add(new BasicNameValuePair("signing_date", "09/15/2015"));//date mm/dd/yyyy nullable
+                            postParameters.add(new BasicNameValuePair("_email", "ashutosh.barthwal007@gmail.com"));*/
 
 
-                            json = jsonParser.makeHttpRequest("http://zciencecorporation.com/lbproject/api/nda/submit", "POST",postParameters);
-
+                            json = jsonParser.makeHttpRequest("http://zciencecorporation.com/lbproject/api/nda/submit/tatti", "GET",postParameters);
 
                         } catch (Exception e) {
-                            Toast.makeText(LBOne.this,"Nothing"+e.toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(LBOne.this,"Nothing ** "+postParameters.toString(),Toast.LENGTH_LONG).show();
                             e.printStackTrace();
 
                         }
-                        Toast.makeText(getApplicationContext(),ndauser.discloser_type,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),ndauser.first_party_type,Toast.LENGTH_LONG).show();
                        // SubmitRequestAsync mAsync = new SubmitRequestAsync(this,ndaSubmitHandler,"legal buddy api request");
 
                     }
@@ -895,13 +917,13 @@ public class LBOne extends ActionBarActivity
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             if(adapterView==s1){
                 a2=i;
-            Toast t=Toast.makeText(getActivity(),""+a2,Toast.LENGTH_LONG);
-            t.show();
+            /*Toast t=Toast.makeText(getActivity(),""+a2,Toast.LENGTH_LONG);
+            t.show();*/
             }
             else if(adapterView==s2){
                 a3=i;
-                Toast t=Toast.makeText(getActivity(),""+a3,Toast.LENGTH_LONG);
-                t.show();
+                /*Toast t=Toast.makeText(getActivity(),""+a3,Toast.LENGTH_LONG);
+                t.show();*/
 
             }
             else if(adapterView==s3){
@@ -914,9 +936,9 @@ public class LBOne extends ActionBarActivity
             }
             else if(adapterView==Dp){
                 if(i==1){
-                    ndauser.discloser_type ="Individual";
-                    ndauser.company_signing_name="";
-                    ndauser.occupation="";
+                    ndauser.first_party_type ="Individual";
+                    ndauser.signing_first="Same as First Party";
+                    ndauser.first_party_occupation="No Occupation";
                     occtv.setVisibility(View.GONE);
                     occet.setVisibility(View.GONE);
                     sntv.setVisibility(View.GONE);
@@ -924,9 +946,9 @@ public class LBOne extends ActionBarActivity
                 }
                 else{
                     if(i==0)
-                        ndauser.discloser_type ="Company";
+                        ndauser.first_party_type ="Company";
                     if(i==2)
-                        ndauser.discloser_type ="Disclosure";
+                        ndauser.first_party_type ="Disclosure";
                     occtv.setVisibility(View.VISIBLE);
                     occet.setVisibility(View.VISIBLE);
                     sntv.setVisibility(View.VISIBLE);
