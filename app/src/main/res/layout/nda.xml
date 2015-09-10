@@ -68,14 +68,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Signing Name"
-                android:id="@+id/textView27"
-                android:editable="false" />
+                android:id="@+id/txt_discloser_signing_name"
+                 />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText14"
-                android:editable="false" />
+                android:id="@+id/value_discloser_signing_name"
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -86,14 +86,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Occupation"
-                android:id="@+id/textView26"
-                android:editable="false" />
+                android:id="@+id/txt_discloser_occupation"
+                 />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText13"
-                android:editable="false" />
+                android:id="@+id/value_discloser_occupation"
+                />
         </LinearLayout>
 
 
@@ -148,6 +148,41 @@
                 android:id="@+id/editText10"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Signing Name"
+                android:id="@+id/txt_reciever_signing_name"
+              />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/value_reciever_signing_name"
+               />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Occupation"
+                android:id="@+id/txt_reciever_occupation"
+                 />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/value_receiver_occupation"
+                />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -194,12 +229,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Any Software or program that has been shared ? :"
-                android:id="@+id/textView28" />
+                android:id="@+id/txt_software_shared" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner8" />
+                android:id="@+id/software_shared" />
         </LinearLayout>
 
         <LinearLayout
@@ -210,12 +245,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Information shared among company ? :"
-                android:id="@+id/textView29" />
+                android:id="@+id/txt_information_shared" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner9" />
+                android:id="@+id/information_shared" />
         </LinearLayout>
 
         <LinearLayout
@@ -226,12 +261,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Making copies permitted ? :"
-                android:id="@+id/textView30" />
+                android:id="@+id/txt_making_copies" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner10" />
+                android:id="@+id/making_copies" />
         </LinearLayout>
 
         <LinearLayout
@@ -242,12 +277,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Is there any timeline ? :"
-                android:id="@+id/textView31" />
+                android:id="@+id/txt_timeline" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner11" />
+                android:id="@+id/timeline" />
         </LinearLayout>
 
         <LinearLayout
@@ -259,14 +294,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Date of closing NDA :"
-                android:id="@+id/textView32" />
+                android:id="@+id/txt_closing_date" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText15"
+                android:id="@+id/closing_date"
                 android:inputType="date"
-                android:hint="dd/mm/yyyy" />
+                android:hint="mm/dd/yyyy" />
         </LinearLayout>
 
         <LinearLayout
@@ -277,12 +312,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Would there be a future business arrangement ? :"
-                android:id="@+id/textView33" />
+                android:id="@+id/txt_future_biz" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner12" />
+                android:id="@+id/future_biz" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -292,12 +327,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="How the agreement may be terminated ? :"
-                android:id="@+id/textView34" />
+                android:id="@+id/txt_termination_type" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner13" />
+                android:id="@+id/termination_type" />
         </LinearLayout>
 
         <LinearLayout
@@ -309,15 +344,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Date of signing :"
-                android:id="@+id/textView35" />
+                android:id="@+id/txt_date_of_signing" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText16"
+                android:id="@+id/value_date_of_signing"
                 android:inputType="date"
-                android:hint="dd/mm/yyyy" />
+                android:hint="mm/dd/yyyy" />
         </LinearLayout>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_to"
+            android:hint="Email Document To"/>
 
         <LinearLayout
             android:orientation="horizontal"

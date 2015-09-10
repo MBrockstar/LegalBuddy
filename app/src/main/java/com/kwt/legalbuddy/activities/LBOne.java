@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
@@ -37,8 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kwt.legalbuddy.R;
-import com.kwt.legalbuddy.controller.GetAccessTokenAsync;
-import com.kwt.legalbuddy.controller.SubmitRequestAsync;
 import com.kwt.legalbuddy.model.NDAuser;
 import com.kwt.legalbuddy.webservice.JSONParser;
 
@@ -50,7 +47,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -254,16 +250,22 @@ public class LBOne extends ActionBarActivity
          */
         ListView listView,listView2,lv3;
         String cats[],ques[],arrTemp[],arrText[];
+        String is_software_shared="1",is_information_shared="1",is_copies_permitted="1",is_timeline="1",is_future_biz="1",termination="discloser only";
+        String email="ashutosh.barthwal007@gmail.com";
         List<Questions> rowItems;
         //List<Names> dnames;
         Button button,b2,b3,b4,b5,b6,b7,b8,submit;
-        Spinner s1,s2,s3,s4,s5,Dp,Rp,Is,timelinesp;
-        EditText tv1,tv2,occet,snet,docet;
-        TextView t3,t4,occtv,sntv,Ins,timlinetv,doctv;
+        Spinner s1,s2,s3,s4,s5,Dp,Rp, information_shared_sp, timeline_sp;
+        Spinner softawre_shared_sp, making_copies_sp, future_biz_sp, termination_type_sp;
+        EditText tv1,tv2, date_of_closing,date_of_signing;
+        TextView t3,t4, information_shared, timline_tv, date_of_closing_tv;
          Dialog d,d2,d3,d4;
+        EditText reciever_signing_name,reciever_occupation,discloser_signing_name,discloser_occupation;
+        TextView reciever_s_name,reciever_ocupation,discloser_s_name,discloser_ocupation;
         NumberPicker np;
         ViewGroup parent;
         NDAuser ndauser;
+        List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
         int a1,a2,a3;
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -585,7 +587,7 @@ public class LBOne extends ActionBarActivity
                 aAsync.execute("Get Access Token");*/
                 JSONObject json = null;
                 JSONParser jsonParser = new JSONParser();
-                List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+                final List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 
                 try {
 
@@ -599,7 +601,7 @@ public class LBOne extends ActionBarActivity
                 }
 
                 ndauser=new NDAuser();
-                String sp3[]={"Company","Individual","Disclosure"};
+                String sp3[]={"Company","Individual","Discloser"};
                 String yn[]={"Yes","No"};
                 String termntn[]={"Discloser only","Mutual"};
                 final EditText discloser_name,receiver_name;
@@ -607,21 +609,30 @@ public class LBOne extends ActionBarActivity
                 receiver_name= (EditText) findViewById(R.id.editText10);
                 submit= (Button) getView().findViewById(R.id.button9);
                 Rp= (Spinner) getView().findViewById(R.id.spinner7);
-                Spinner info= (Spinner) getView().findViewById(R.id.spinner8);
-                Spinner copy= (Spinner) getView().findViewById(R.id.spinner10);
-                Spinner fbiz= (Spinner) getView().findViewById(R.id.spinner12);
-                Spinner termntnsp= (Spinner) getView().findViewById(R.id.spinner13);
+                softawre_shared_sp= (Spinner) getView().findViewById(R.id.software_shared);
+                making_copies_sp = (Spinner) getView().findViewById(R.id.making_copies);
+                future_biz_sp = (Spinner) getView().findViewById(R.id.future_biz);
+                termination_type_sp = (Spinner) getView().findViewById(R.id.termination_type);
                 Dp= (Spinner) getView().findViewById(R.id.spinner6);
-                Is= (Spinner) getView().findViewById(R.id.spinner9);
-                timelinesp= (Spinner) getView().findViewById(R.id.spinner11);
-                occtv= (TextView) getView().findViewById(R.id.textView26);
-                sntv= (TextView) getView().findViewById(R.id.textView27);
-                Ins= (TextView) getView().findViewById(R.id.textView29);
-                timlinetv= (TextView) getView().findViewById(R.id.textView31);
-                doctv= (TextView) getView().findViewById(R.id.textView32);
-                occet= (EditText) getView().findViewById(R.id.editText13);
-                snet= (EditText) getView().findViewById(R.id.editText14);
-                docet= (EditText) getView().findViewById(R.id.editText15);
+                information_shared_sp = (Spinner) getView().findViewById(R.id.information_shared);
+                timeline_sp = (Spinner) getView().findViewById(R.id.timeline);
+
+                information_shared = (TextView) getView().findViewById(R.id.txt_information_shared);
+                timline_tv = (TextView) getView().findViewById(R.id.txt_timeline);
+                date_of_closing_tv = (TextView) getView().findViewById(R.id.txt_closing_date);
+                date_of_closing = (EditText) getView().findViewById(R.id.closing_date);
+                date_of_signing= (EditText) getView().findViewById(R.id.value_date_of_signing);
+
+                discloser_ocupation= (TextView) getView().findViewById(R.id.txt_discloser_occupation);
+                discloser_s_name= (TextView) getView().findViewById(R.id.txt_discloser_signing_name);
+                discloser_occupation= (EditText) getView().findViewById(R.id.value_discloser_occupation);
+                discloser_signing_name= (EditText) getView().findViewById(R.id.value_discloser_signing_name);
+
+                reciever_s_name= (TextView) getView().findViewById(R.id.txt_reciever_signing_name);
+                reciever_ocupation= (TextView) getView().findViewById(R.id.txt_reciever_occupation);
+                reciever_signing_name= (EditText) getView().findViewById(R.id.value_reciever_signing_name);
+                reciever_occupation= (EditText) getView().findViewById(R.id.value_receiver_occupation);
+
                 ArrayAdapter<CharSequence> a3 = new ArrayAdapter<CharSequence>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item, sp3);
                 ArrayAdapter<CharSequence> ayn = new ArrayAdapter<CharSequence>(getActivity(),
@@ -630,18 +641,26 @@ public class LBOne extends ActionBarActivity
                         android.R.layout.simple_spinner_dropdown_item, termntn);
                 Dp.setAdapter(a3);
                 Rp.setAdapter(a3);
-                timelinesp.setAdapter(ayn);
-                info.setAdapter(ayn);
-                copy.setAdapter(ayn);
-                Is.setAdapter(ayn);
-                fbiz.setAdapter(ayn);
-                termntnsp.setAdapter(term);
+                timeline_sp.setAdapter(ayn);
+                softawre_shared_sp.setAdapter(ayn);
+                making_copies_sp.setAdapter(ayn);
+                information_shared_sp.setAdapter(ayn);
+                future_biz_sp.setAdapter(ayn);
+                termination_type_sp.setAdapter(term);
+
                 Dp.setOnItemSelectedListener(this);
                 Rp.setOnItemSelectedListener(this);
-                timelinesp.setOnItemSelectedListener(this);
+                softawre_shared_sp.setOnItemSelectedListener(this);
+                information_shared_sp.setOnItemSelectedListener(this);
+                making_copies_sp.setOnItemSelectedListener(this);
+                timeline_sp.setOnItemSelectedListener(this);
+                future_biz_sp.setOnItemSelectedListener(this);
+                termination_type_sp.setOnItemSelectedListener(this);
+
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        email_popup();
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         PlaceholderFragment pf = new PlaceholderFragment();
                         fragmentManager.beginTransaction()
@@ -650,12 +669,31 @@ public class LBOne extends ActionBarActivity
 
                         JSONObject json = null;
                         JSONParser jsonParser = new JSONParser();
-                        List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-
+                        email=
                         ndauser.first_party_name=discloser_name.getText().toString();
                         ndauser.effective_date=((EditText) findViewById(R.id.editText11)).getText().toString();
                         ndauser.governing_law=((EditText) findViewById(R.id.editText12)).getText().toString();
+                        ndauser.second_party_name=receiver_name.getText().toString();
+                        if(ndauser.first_party_type.equalsIgnoreCase("Company")||ndauser.first_party_type.equalsIgnoreCase("Disclosure")) {
+                            ndauser.signing_first = discloser_signing_name.getText().toString();
+                            ndauser.first_party_occupation = discloser_occupation.getText().toString();
+                        }
+                        if(ndauser.second_party_type.equalsIgnoreCase("Company")||ndauser.second_party_type.equalsIgnoreCase("Disclosure")) {
+                            ndauser.signing_second = reciever_signing_name.getText().toString();
+                            ndauser.second_party_occupation = reciever_occupation.getText().toString();
+                        }
+                        if(is_timeline.equalsIgnoreCase("1")) {
+                            ndauser.closing_date= date_of_closing.getText().toString();
+                        }
+                        ndauser.signing_date=date_of_signing.getText().toString();
 
+                        ndauser.software_shared=is_software_shared;
+                        ndauser.info_shared_among_company=is_information_shared;
+                        ndauser.make_copies=is_copies_permitted;
+                        ndauser.timeline=is_timeline;
+                        ndauser.future_buiness=is_future_biz;
+                        ndauser.agreement_terminated=termination;
+                        email=((EditText) findViewById(R.id.email_to)).getText().toString();
 
                         try {
                             postParameters.add(new BasicNameValuePair("_token", "ashutoshLBaPP"));
@@ -666,7 +704,7 @@ public class LBOne extends ActionBarActivity
                             postParameters.add(new BasicNameValuePair("second_party_type", ndauser.second_party_type));
                             postParameters.add(new BasicNameValuePair("second_party_name", ndauser.second_party_name));
                             postParameters.add(new BasicNameValuePair("signing_second", ndauser.signing_second));//string nullable
-                            postParameters.add(new BasicNameValuePair("second_party_occupation", ndauser.first_party_occupation));//string
+                            postParameters.add(new BasicNameValuePair("second_party_occupation", ndauser.second_party_occupation));//string
                             postParameters.add(new BasicNameValuePair("effective_date", ndauser.effective_date));//date mm/dd/yyyy
                             postParameters.add(new BasicNameValuePair("governing_law", ndauser.governing_law));// string
                             postParameters.add(new BasicNameValuePair("software_shared", ndauser.software_shared));// 1 for Yes 0 for No
@@ -677,7 +715,8 @@ public class LBOne extends ActionBarActivity
                             postParameters.add(new BasicNameValuePair("future_buiness", ndauser.future_buiness));// 1 for Yes 0 for No
                             postParameters.add(new BasicNameValuePair("agreement_terminated", ndauser.agreement_terminated));//string mutually ot discloser only
                             postParameters.add(new BasicNameValuePair("signing_date", ndauser.signing_date));//date mm/dd/yyyy nullable
-                            postParameters.add(new BasicNameValuePair("_email", "ashutosh.barthwal007@gmail.com"));
+
+                            postParameters.add(new BasicNameValuePair("_email", email));
                             /*postParameters.add(new BasicNameValuePair("_token", "ashutoshLBaPP"));
                             postParameters.add(new BasicNameValuePair("first_party_type", "Individual"));
                             postParameters.add(new BasicNameValuePair("first_party_name", "Mr. Ashutosh Barthwal"));
@@ -822,6 +861,35 @@ public class LBOne extends ActionBarActivity
 
         }
 
+        public void email_popup()
+        {
+
+            final Dialog email_dialog = new Dialog(LBOne.this);
+            email_dialog.setTitle("Email To");
+            email_dialog.setContentView(R.layout.email_dialog);
+            Button email_set = (Button) email_dialog.findViewById(R.id.email_set);
+            Button email_cancel = (Button) email_dialog.findViewById(R.id.email_cancel);
+            final EditText email_to= (EditText) email_dialog.findViewById(R.id.email_to);
+
+            email_set.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    email=email_to.getText().toString();
+                    email_dialog.dismiss();
+                }
+            });
+            email_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    email_dialog.dismiss(); // dismiss the dialog
+                }
+            });
+//            email_dialog.show();
+
+
+        }
+
         private class MyListAdapter extends BaseAdapter {
 
             @Override
@@ -939,43 +1007,91 @@ public class LBOne extends ActionBarActivity
                     ndauser.first_party_type ="Individual";
                     ndauser.signing_first="Same as First Party";
                     ndauser.first_party_occupation="No Occupation";
-                    occtv.setVisibility(View.GONE);
-                    occet.setVisibility(View.GONE);
-                    sntv.setVisibility(View.GONE);
-                    snet.setVisibility(View.GONE);
+                    discloser_s_name.setVisibility(View.GONE);
+                    discloser_ocupation.setVisibility(View.GONE);
+                    discloser_signing_name.setVisibility(View.GONE);
+                    discloser_occupation.setVisibility(View.GONE);
                 }
                 else{
                     if(i==0)
                         ndauser.first_party_type ="Company";
                     if(i==2)
-                        ndauser.first_party_type ="Disclosure";
-                    occtv.setVisibility(View.VISIBLE);
-                    occet.setVisibility(View.VISIBLE);
-                    sntv.setVisibility(View.VISIBLE);
-                    snet.setVisibility(View.VISIBLE);
+                        ndauser.first_party_type ="Discloser";
+                    discloser_s_name.setVisibility(View.VISIBLE);
+                    discloser_ocupation.setVisibility(View.VISIBLE);
+                    discloser_signing_name.setVisibility(View.VISIBLE);
+                    discloser_occupation.setVisibility(View.VISIBLE);
                 }
             }
             else if(adapterView==Rp){
                 if(i==1){
-                    Ins.setVisibility(View.GONE);
-                    Is.setVisibility(View.GONE);
+                    ndauser.second_party_type ="Individual";
+                    ndauser.signing_second="Same as First Party";
+                    ndauser.second_party_occupation="No Occupation";
+                    information_shared.setVisibility(View.GONE);
+                    information_shared_sp.setVisibility(View.GONE);
+                    reciever_s_name.setVisibility(View.GONE);
+                    reciever_ocupation.setVisibility(View.GONE);
+                    reciever_signing_name.setVisibility(View.GONE);
+                    reciever_occupation.setVisibility(View.GONE);
                 }
                 else{
-                    Ins.setVisibility(View.VISIBLE);
-                    Is.setVisibility(View.VISIBLE);
+                    if(i==0)
+                        ndauser.second_party_type ="Company";
+                    if(i==2)
+                        ndauser.second_party_type ="Discloser";
+                    reciever_s_name.setVisibility(View.VISIBLE);
+                    reciever_ocupation.setVisibility(View.VISIBLE);
+                    reciever_signing_name.setVisibility(View.VISIBLE);
+                    reciever_occupation.setVisibility(View.VISIBLE);
+                    information_shared.setVisibility(View.VISIBLE);
+                    information_shared_sp.setVisibility(View.VISIBLE);
                 }
 
             }
-            else if(adapterView==timelinesp){
+            else if(adapterView== timeline_sp){
                 if(i==1){
-                    docet.setVisibility(View.GONE);
-                    doctv.setVisibility(View.GONE);
+                    date_of_closing.setVisibility(View.GONE);
+                    date_of_closing_tv.setVisibility(View.GONE);
+                    is_timeline="0";
                 }
-                else{
-                    docet.setVisibility(View.VISIBLE);
-                    doctv.setVisibility(View.VISIBLE);
+                else if(i==0){
+                    date_of_closing.setVisibility(View.VISIBLE);
+                    date_of_closing_tv.setVisibility(View.VISIBLE);
+                    is_timeline="1";
                 }
 
+            }
+            else  if (adapterView==softawre_shared_sp){
+                if(i==0)
+                    is_software_shared="1";
+                else if(i==1)
+                    is_software_shared="0";
+
+            }
+            else  if (adapterView==information_shared_sp){
+                if(i==0)
+                    is_information_shared="1";
+                else if(i==1)
+                    is_information_shared="0";
+            }
+            else  if (adapterView==making_copies_sp){
+                if(i==0)
+                    is_copies_permitted="1";
+                else if(i==1)
+                    is_copies_permitted="0";
+            }
+            else  if (adapterView==future_biz_sp){
+                if(i==0)
+                    is_future_biz="1";
+                else if(i==1)
+                    is_future_biz="0";
+            }
+            else  if (adapterView==termination_type_sp){
+                if(i==0)
+                    termination="discloser only";
+                else if(i==1)
+                    termination="mutually";
             }
         }
 
