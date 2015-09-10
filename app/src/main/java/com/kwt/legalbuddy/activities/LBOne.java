@@ -460,12 +460,12 @@ public class LBOne extends ActionBarActivity
                             t.show();*/
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             PlaceholderFragment pf = new PlaceholderFragment();
-                            if(position==0){
+                            /*if(position==0){
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.container, pf.newInstance(4)).addToBackStack(null)
                                         .commit();
                             }
-                            else if(position==1){
+                            else */if(position==0){
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.container, pf.newInstance(7)).addToBackStack(null)
                                         .commit();

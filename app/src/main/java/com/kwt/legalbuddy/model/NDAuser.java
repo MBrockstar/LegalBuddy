@@ -1,7 +1,7 @@
 package com.kwt.legalbuddy.model;
 
 /**
- * Created by ASHU on 9/7/2015.
+ * Created by MB on 9/7/2015.
  */
 public class NDAuser {
     public String first_party_type, first_party_name,first_party_occupation, second_party_type, second_party_name,second_party_occupation;
