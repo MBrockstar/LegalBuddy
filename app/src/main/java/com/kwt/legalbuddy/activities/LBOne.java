@@ -669,7 +669,7 @@ public class LBOne extends ActionBarActivity
 
                         JSONObject json = null;
                         JSONParser jsonParser = new JSONParser();
-                        email=
+
                         ndauser.first_party_name=discloser_name.getText().toString();
                         ndauser.effective_date=((EditText) findViewById(R.id.editText11)).getText().toString();
                         ndauser.governing_law=((EditText) findViewById(R.id.editText12)).getText().toString();
